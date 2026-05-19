@@ -88,8 +88,9 @@ When `ENABLE_AUTH=true`, use HTTP Basic Auth or `X-API-Key` header.
     """,
     version="1.0.0",
     lifespan=lifespan,
-    docs_url="/docs" if settings.DEBUG else None,   # Hide docs in production
-    redoc_url="/redoc" if settings.DEBUG else None,
+    docs_url="/docs",
+redoc_url="/redoc",
+    
 )
 
 # ─── Middleware Stack (order matters!) ────────────────────────
