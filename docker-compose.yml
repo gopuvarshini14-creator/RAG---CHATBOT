@@ -1,0 +1,31 @@
+version: '3.9'
+
+# Docker Compose for local development
+# Usage: docker-compose up --build
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - VECTOR_STORE_TYPE=chroma
+      - DEBUG=true
+    volumes:
+      # Persist uploads and vector DB between restarts
+      - ./data/uploads:/app/uploads
+      - ./data/chroma_db:/app/chroma_db
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
