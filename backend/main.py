@@ -142,7 +142,4 @@ if __name__ == "__main__":
         access_log=False,  # Our middleware handles this
     )
 
-@app.get("/")
-async def root():
-    return {"message": "Backend running"}
     
