@@ -8,8 +8,9 @@
  */
 
 import axios from 'axios'
+const BASE_URL = "https://rag-chatbot-b89c.onrender.com/api"
 
-const BASE_URL = import.meta.env.VITE_API_URL || '/api'
+
 
 // ─── Axios Instance ───────────────────────────────────────────
 export const api = axios.create({
