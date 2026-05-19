@@ -140,3 +140,8 @@ if __name__ == "__main__":
         log_config=None,  # Use our custom logging config
         access_log=False,  # Our middleware handles this
     )
+
+@app.get("/")
+async def root():
+    return {"message": "Backend running"}
+    
