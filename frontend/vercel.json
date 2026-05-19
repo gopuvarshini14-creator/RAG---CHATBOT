@@ -2,10 +2,7 @@
   "rewrites": [
     {
       "source": "/(.*)",
-      "destination": "/index.html"
+      "destination": "/"
     }
-  ],
-  "env": {
-    "VITE_API_URL": "https://rag-chatbot-b89c.onrender.com/api"
-  }
+  ]
 }
