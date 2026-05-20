@@ -102,13 +102,22 @@ if not settings.DEBUG:
     app.add_middleware(RateLimitMiddleware)
 
 # 3. CORS
+
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.ALLOWED_ORIGINS,
+    allow_origins=[
+        "http://localhost:5173",
+        "http://localhost:3000",
+        "https://*.vercel.app",
+        "https://ragchatbotvarshini.vercel.app"
+    ],
     allow_credentials=True,
-    allow_methods=["GET", "POST", "DELETE", "OPTIONS"],
+    allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
 
 # 4. Gzip compression (innermost)
 app.add_middleware(GZipMiddleware, minimum_size=1000)
@@ -132,17 +141,7 @@ async def global_exception_handler(request: Request, exc: Exception):
     )
     from fastapi.middleware.cors import CORSMiddleware
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=[
-        "http://localhost:5173",
-        "https://*.vercel.app",
-        "https://ragchatbotvarshini.vercel.app"
-    ],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+
 
 
 if __name__ == "__main__":
