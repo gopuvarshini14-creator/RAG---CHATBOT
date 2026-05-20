@@ -101,22 +101,22 @@ export function makeCancelToken() {
 
 // ─── API Methods ─────────────────────────────────────────────
 export const documentsApi = {
-  list: () => api.get('/documents/').then(r => r.data),
+  list: () => api.get('/api/documents/').then(r => r.data),
 
   upload: (file, onProgress) => {
     const form = new FormData()
     form.append('file', file)
-    return api.post('/documents/upload/', form, {
+    return api.post('/api/documents/upload', form, {
       headers: { 'Content-Type': 'multipart/form-data' },
       onUploadProgress: e => onProgress?.(Math.round((e.loaded * 100) / e.total)),
     }).then(r => r.data)
   },
 
-  get: (docId) => api.get(`/documents/${docId}`).then(r => r.data),
-  delete: (docId) => api.delete(`/documents/${docId}`).then(r => r.data),
+  get: (docId) => api.get(`/api/documents/${docId}`).then(r => r.data),
+  delete: (docId) => api.delete(`/api/documents/${docId}`).then(r => r.data),
 
   summarize: (docId, summaryType = 'concise', sectionText = null) =>
-    api.post('/documents/summarize', {
+    api.post('/api/documents/summarize', {
       doc_id: docId,
       summary_type: summaryType,
       section_text: sectionText,
@@ -125,14 +125,14 @@ export const documentsApi = {
 
 export const chatApi = {
   ask: (question, docIds, chatHistory) =>
-    api.post('/chat/ask', {
+    api.post('/api/chat/ask', {
       question,
       doc_ids: docIds?.length > 0 ? docIds : null,
       chat_history: chatHistory || [],
     }).then(r => r.data),
 
   askStream: async function* (question, docIds, chatHistory, signal) {
-    const response = await fetch(`${BASE_URL}/chat/ask/stream`, {
+    const response = await fetch(`${BASE_URL}/api/chat/ask/stream`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -177,10 +177,10 @@ export const chatApi = {
 }
 
 export const analyticsApi = {
-  getStats: () => api.get('/analytics/stats').then(r => r.data),
-  getDocumentInfo: (docId) => api.get(`/analytics/documents/${docId}/info`).then(r => r.data),
+  getStats: () => api.get('/api/analytics/stats').then(r => r.data),
+  getDocumentInfo: (docId) => api.get(`/api/analytics/documents/${docId}/info`).then(r => r.data),
 }
 
 export const healthApi = {
-  check: () => api.get('/health').then(r => r.data),
+  check: () => api.get('/api/health').then(r => r.data),
 }
