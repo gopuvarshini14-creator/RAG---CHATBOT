@@ -14,8 +14,9 @@ const BASE_URL = "https://rag-chatbot-db72.onrender.com"
 
 
 // ─── Axios Instance ───────────────────────────────────────────
+// IMPORTANT: Do NOT set baseURL in axios instance
+// Use absolute URLs with BASE_URL for every request to avoid Vercel interception
 export const api = axios.create({
-  baseURL: BASE_URL,
   timeout: 120_000,
   headers: {
     'Content-Type': 'application/json',
@@ -100,23 +101,26 @@ export function makeCancelToken() {
 }
 
 // ─── API Methods ─────────────────────────────────────────────
+// ✅ ALL requests use ABSOLUTE URLs with BASE_URL
+// ✅ NO relative paths to prevent Vercel interception
+
 export const documentsApi = {
-  list: () => api.get('/api/documents/').then(r => r.data),
+  list: () => api.get(`${BASE_URL}/api/documents/`).then(r => r.data),
 
   upload: (file, onProgress) => {
     const form = new FormData()
     form.append('file', file)
-    return api.post('/api/documents/upload', form, {
+    return api.post(`${BASE_URL}/api/documents/upload`, form, {
       headers: { 'Content-Type': 'multipart/form-data' },
       onUploadProgress: e => onProgress?.(Math.round((e.loaded * 100) / e.total)),
     }).then(r => r.data)
   },
 
-  get: (docId) => api.get(`/api/documents/${docId}`).then(r => r.data),
-  delete: (docId) => api.delete(`/api/documents/${docId}`).then(r => r.data),
+  get: (docId) => api.get(`${BASE_URL}/api/documents/${docId}`).then(r => r.data),
+  delete: (docId) => api.delete(`${BASE_URL}/api/documents/${docId}`).then(r => r.data),
 
   summarize: (docId, summaryType = 'concise', sectionText = null) =>
-    api.post('/api/documents/summarize', {
+    api.post(`${BASE_URL}/api/documents/summarize`, {
       doc_id: docId,
       summary_type: summaryType,
       section_text: sectionText,
@@ -125,7 +129,7 @@ export const documentsApi = {
 
 export const chatApi = {
   ask: (question, docIds, chatHistory) =>
-    api.post('/api/chat/ask', {
+    api.post(`${BASE_URL}/api/chat/ask`, {
       question,
       doc_ids: docIds?.length > 0 ? docIds : null,
       chat_history: chatHistory || [],
@@ -177,10 +181,10 @@ export const chatApi = {
 }
 
 export const analyticsApi = {
-  getStats: () => api.get('/api/analytics/stats').then(r => r.data),
-  getDocumentInfo: (docId) => api.get(`/api/analytics/documents/${docId}/info`).then(r => r.data),
+  getStats: () => api.get(`${BASE_URL}/api/analytics/stats`).then(r => r.data),
+  getDocumentInfo: (docId) => api.get(`${BASE_URL}/api/analytics/documents/${docId}/info`).then(r => r.data),
 }
 
 export const healthApi = {
-  check: () => api.get('/api/health').then(r => r.data),
+  check: () => api.get(`${BASE_URL}/api/health`).then(r => r.data),
 }
