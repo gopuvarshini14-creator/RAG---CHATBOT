@@ -8,7 +8,8 @@
  */
 
 import axios from 'axios'
-const BASE_URL = "https://rag-chatbot-b89c.onrender.com/api"
+const BASE_URL = "https://rag-chatbot-db72.onrender.com"
+
 
 
 
