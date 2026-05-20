@@ -20,7 +20,7 @@ python-docx==1.1.2
 
 # Vector Databases
 chromadb==0.5.15
-faiss-cpu==1.8.0
+
 
 # Utilities
 numpy==1.26.4
